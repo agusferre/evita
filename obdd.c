@@ -295,7 +295,6 @@ void obdd_reduce(obdd* root){
 obdd* obdd_apply(bool (*apply_fkt)(bool,bool), obdd *left, obdd* right){
 	if(left->mgr != right->mgr)
 		return NULL;
-	
 	obdd* applied_obdd	= obdd_create(left->mgr, obdd_node_apply(apply_fkt, left->mgr, left->root_obdd, right->root_obdd));
 	obdd_reduce(applied_obdd);
 	return applied_obdd;
@@ -393,7 +392,10 @@ obdd_node* obdd_node_restrict(obdd_mgr* mgr, obdd_node* root, char* var, uint32_
 }
 
 obdd* obdd_exists(obdd* root, char* var){ 
-	// TODO: implementar funcion
+	
+
+//(var ∧ f root | var=> ) ∨ (¬var ∧ f root | var=⊥ )
+
 	return NULL;
 }
 
@@ -413,12 +415,11 @@ void obdd_node_print(obdd_mgr* mgr, obdd_node* root, uint32_t spaces){
 }
 
 bool is_true(obdd_mgr* mgr, obdd_node* root){
-	// TODO: implementar funcion
-	return false;
+	return mgr->true_obdd->root_obdd->var_ID == root->var_ID;
 }
+
 bool is_constant(obdd_mgr* mgr, obdd_node* root){
-	// TODO: implementar funcion
-	return false;
+	return is_true(mgr, root) || mgr->false_obdd->root_obdd->var_ID == root->var_ID;
 }
 
 /** implementar en ASM
